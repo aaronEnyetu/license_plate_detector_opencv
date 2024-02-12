@@ -75,3 +75,42 @@ image2 = image.copy()
 cv2.drawContours(image2, cnts, -1, (0,255,0),3)
 cv2.imshow('Top 30 Contours', image2)
 cv2.waitKey(0)
+
+
+#Run a For loop on the contours to find the best possible contour of the number plate
+count = 0
+name = 1 #name of the image(cropped image)
+
+
+for i in cnts:
+    perimeter = cv2.arcLength(i, True)
+    #perimeter is also called as archLength and it can be found directly in python using archLength function
+
+    approx = cv2.approxPolyDP(i, 0.02 * perimeter, True)
+    #approxPolyDp is used because it approximates the curve of polygon with the precision
+
+    if(len(approx)==4): #4 means it has 4 corners which will be most probably be the number plate and it also has 4 corners
+        NumberPlateCount = approx
+
+        #Now crop that rectangle part
+
+        x, y, w, h = cv2.boundingRect(i)
+        crp_img = image[y:y+h, x:x+w]
+
+
+            ###############################
+            #                             #
+ #(y+h)     #                             # Lets suppose this is the figure with 4 corners
+            #                             #
+            ###############################
+        #(x,y)             ---(x+w)------->
+        #this much part will be cropped
+
+        cv2.imwrite(str(name) + '.jpg', crp_img)
+
+        break
+    #Draw contour in the main image that has been identified as a number plate
+    cv2.drawContours(image, [NumberPlateCount], -1, (0,255,0), 3)
+    cv2.imshow('Final Image', image)
+    cv2.waitKey(0)
+    
