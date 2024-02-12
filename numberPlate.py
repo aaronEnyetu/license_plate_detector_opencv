@@ -55,4 +55,23 @@ cv2.drawContours(image1, cnts, -1, (0,255,0), 3) #this values are fixed ## to dr
 cv2.imshow('Canny after contouring', image1)
 cv2.waitKey(0)
 
+#Not all the contours are needed, only the ones on the number plate
+#But can't directly locate them so sorting them on the basis of their areas
+#Selecting those areas which are maximum so will select top 30 areas
+#For that the order of sorting will be reversed
 
+
+
+cnts = sorted(cnts, key = cv2.contourArea, reverse= True)[:30]
+NumberPlateCount = None
+
+
+#Currently there are no contours||it will show how many number plates are there in the image
+#To draw top 30 contours- make a copy of the original image and use
+#use because there will be no need to edit anything on the original image
+
+
+image2 = image.copy()
+cv2.drawContours(image2, cnts, -1, (0,255,0),3)
+cv2.imshow('Top 30 Contours', image2)
+cv2.waitKey(0)
