@@ -113,4 +113,15 @@ for i in cnts:
     cv2.drawContours(image, [NumberPlateCount], -1, (0,255,0), 3)
     cv2.imshow('Final Image', image)
     cv2.waitKey(0)
-    
+
+
+    #Crop the part of the number plate
+    crop_img_loc = '1.jpg'
+    cv2.imshow('Cropped Image', cv2.imread(crop_img_loc))
+  
+
+
+    text = pytesseract.image_to_string(crop_img_loc, lang='eng')
+    print('The License Plate Number is: ')
+    cv2.waitKey(0)
+
