@@ -6,7 +6,7 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 #now to read the image file
-image = cv2.imread('plate1.jpg')
+image = cv2.imread('plate2.jpg')
 
 #Resize and standardize the image to 500
 
@@ -25,3 +25,18 @@ cv2.waitKey(0) #till i press anything it will not execute further
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 cv2.imshow('Gray Scale Image', gray)
 cv2.waitKey(0)
+
+
+#now the noise will be reduced from the image and make it smooth
+gray = cv2.bilateralFilter(gray, 11, 17, 17)
+cv2.imshow('Smoother Image', gray)
+cv2.waitKey(0)
+
+
+#Find the edges of the images
+
+edged = cv2.Canny(gray, 170, 200)
+cv2.imshow('Canny Edge', edged)
+cv2.waitKey(0)
+
+
